@@ -128,8 +128,8 @@
             var myString;
             var findc = [];
             $(document).ready(function () {
-                 $('#close, #dialog-overlay').click(function () {     
-                    window.location.href="addscribblefeed.action?desc="+myString;
+                $('#close, #dialog-overlay').click(function () {     
+                    //window.location.href="addscribblefeed.action?desc="+myString;
                     $('#dialog-overlay, #dialog-box').hide(); 
                     return false;
                 });   
@@ -152,39 +152,72 @@
                     document.getElementById('ins').innerHTML="Please Enter any Feed";
                 }
                 else{
-                    var x=xmlDoc.getElementsByTagName("word");
-                    for (var j=0;j<x.length;j++)
+                    var find5;
+                    var finde = [];
+                    var y=xmlDoc.getElementsByTagName("eword");
+                    findf = [];
+                    for (var j=0;j<y.length;j++)
                     {
-                        var finda = myString.indexOf(x[j].childNodes[0].nodeValue);
+                        var finda = myString.indexOf(y[j].childNodes[0].nodeValue);
                         if(finda >= 0){
-                            findc[findc.length] = x[j].childNodes[0].nodeValue;
-                        }}
-                    findd = [];
-                    var cool2 = myString.split(/[\s]/);
-                    for(var i=0;i<cool2.length;i++){
-                        for(var j=0;j<findc.length;j++){
-                            var find2 = cool2[i].indexOf(findc[j]);
-                            if(find2 >= 0){
-                                findd[findd.length] = cool2[i]
-                                loop = 0;
-                                break;
-                                find2 = -2;
-                            }}}
-                    for(var i=0;i<findd.length;i++){
-                        if(i==0){
-                            messagea = findd[i];
-                        }
-                        else{
-                            messagea = messagea+","+findd[i];
+                            finde[finde.length] = y[j].childNodes[0].nodeValue;
                         }
                     }
-                    if(messagea != null){popup(messagea);}
-                    else{window.location.href="addscribblefeed.action?desc="+myString;}
+                    var cool2 = myString.split(/[\s]/);
+                    var match = /\d{2}/.test(myString);
+                    if(match){
+                        for(i=0;i<cool2.length;i++){
+                            var regexp = /^(\d{2})[-\/.](\d{2})[-\/.](\d{2}|\d{2})$/
+                            var valid =regexp.test(cool2[i]);
+                            if(valid)
+                                findf[findf.length] = cool2[i];
+                        }
+                    }
+                   
+                    if(finde.length != 0){
+                        z=xmlDoc.getElementsByTagName("pword");
+                        var find3;
+                        for(i=0;i<cool2.length;i++){
+                            for(j=0;j<finde.length;j++){
+                                var find2 = cool2[i].indexOf(finde[j]);
+                                if(find2 >= 0){
+                                    var find4;
+                                    for(k=0;k<z.length;k++){
+                                        find3 = cool2[i-1].indexOf(z[k].childNodes[0].nodeValue);
+                                        if(find3 >= 0){
+                                            find4 = z[k].childNodes[0].nodeValue;
+                                            break;
+                                        }
+                                        
+                                    }
+                                    if(find4 != null){find5 = find4 + " " +cool2[i];}
+                                }
+                                if(find5 != null){
+                                    findf[findf.length] = find5;
+                                    find5 = null;
+                                    loop = 0;
+                                    break;
+                                    find2 = -2;
+                                }
+                            }
+                        }
+                        
+                    }
                     
                 }
+                for(i=0;i<findf.length;i++){
+                    if(i==0){
+                        messagea = findf[i];
+                    }
+                    else{
+                        messagea = messagea+","+findf[i];
+                    }
+                }
+                if(messagea != null){popup(messagea); messagea = null;}
+                //else{window.location.href="addscribblefeed.action?desc="+myString;}
             }
             function add(){
-                window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
+                //window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
                 $('#dialog-overlay, #dialog-box').hide();   
             }
         </script>

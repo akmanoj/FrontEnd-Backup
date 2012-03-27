@@ -1,8 +1,9 @@
 <html>
     <head><title>Analysis</title>
         <script src="js/jquery.js"></script>
+        <script src="analysis.js"></script>
         <style>
-            #dialog-overlay {
+            #dialog-overlay, #dialog-overlay2 {
 
                 /* set it to fill the whil screen */
                 width:100%; 
@@ -25,7 +26,7 @@
             }
 
 
-            #dialog-box {
+            #dialog-box, #dialog-box2 {
 
                 /* css3 drop shadow */
                 -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -47,16 +48,15 @@
                 display:none;
             }
 
-            #dialog-box .dialog-content {
-                /* style the content */
-                text-align:left; 
+            #dialog-box, #dialog-box2 .dialog-content {
+                /* style the content */ 
                 padding:10px; 
                 margin:13px;
                 color:#666; 
                 font-family:arial;
                 font-size:12px; 
             }
-            #titlebar {
+            #titlebar, #titlebar2 {
                 /* styles for button */
                 text-align:center;
                 display: block;
@@ -96,7 +96,6 @@
                 border-bottom: 1px solid rgba(0,0,0,0.25);
                 position: relative;
                 cursor: pointer;
-
             }
 
             button:hover {
@@ -104,11 +103,11 @@
             }
 
             /* extra styling */
-            #dialog-box .dialog-content p {
+            #dialog-box, #dialog-box2 .dialog-content p {
                 font-weight:900; margin:0;
             }
 
-            #dialog-box .dialog-content ul {
+            #dialog-box, #dialog-box2 .dialog-content ul {
                 margin:10px 0 10px 20px; 
                 padding:0; 
                 height:50px;
@@ -125,17 +124,35 @@
             xmlhttp.send();
             xmlDoc=xmlhttp.responseXML;
             var messagea;
+            var messageb;
             var myString;
-            var findc = [];
             $(document).ready(function () {
-                 $('#close, #dialog-overlay').click(function () {     
+                $('#close, #dialog-overlay').click(function () {     
                     window.location.href="addscribblefeed.action?desc="+myString;
                     $('#dialog-overlay, #dialog-box').hide(); 
+                    if(messageb!=null){popup2(messageb);}
                     return false;
+                });   
+                $('#add').click(function () {     
+                    //window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
+                    $('#dialog-overlay, #dialog-box').hide(); 
+                    if(messageb!=null){popup2(messageb);}
                 });   
                 $(window).resize(function () {
                     if (!$('#dialog-box').is(':hidden')) popup();       
                 }); 
+                $('#close2, #dialog-overlay2').click(function () {     
+                    window.location.href="addscribblefeed.action?desc="+myString;
+                    $('#dialog-overlay2, #dialog-box2').hide(); 
+                    return false;
+                });   
+                $(window).resize(function () {
+                    if (!$('#dialog-box2').is(':hidden')) popup();       
+                }); 
+                $('#add2').click(function () {     
+                    //window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
+                    $('#dialog-overlay2, #dialog-box2').hide();  
+                });   
             });
             function popup(message) {
                 var maskHeight = $(document).height();  
@@ -146,46 +163,35 @@
                 $('#dialog-box').css({top:dialogTop, left:dialogLeft}).show();
                 $('#dialog-message').html(message);
             }
+            function popup2(message) {
+                var maskHeight = $(document).height();  
+                var maskWidth = $(window).width();
+                var dialogTop =  (maskHeight/3) - ($('#dialog-box2').height());  
+                var dialogLeft = (maskWidth/2) - ($('#dialog-box2').width()/2); 
+                $('#dialog-overlay2').css({height:maskHeight, width:maskWidth}).show();
+                $('#dialog-box2').css({top:dialogTop, left:dialogLeft}).show();
+                $('#dialog-message2').html(message);
+            }
             function check(){
                 myString =document.getElementById('feed').value ;
                 if(myString==""){
                     document.getElementById('ins').innerHTML="Please Enter any Feed";
                 }
                 else{
-                    var x=xmlDoc.getElementsByTagName("word");
-                    for (var j=0;j<x.length;j++)
-                    {
-                        var finda = myString.indexOf(x[j].childNodes[0].nodeValue);
-                        if(finda >= 0){
-                            findc[findc.length] = x[j].childNodes[0].nodeValue;
-                        }}
-                    findd = [];
-                    var cool2 = myString.split(/[\s]/);
-                    for(var i=0;i<cool2.length;i++){
-                        for(var j=0;j<findc.length;j++){
-                            var find2 = cool2[i].indexOf(findc[j]);
-                            if(find2 >= 0){
-                                findd[findd.length] = cool2[i]
-                                loop = 0;
-                                break;
-                                find2 = -2;
-                            }}}
-                    for(var i=0;i<findd.length;i++){
-                        if(i==0){
-                            messagea = findd[i];
+                    messagea = urlValidate(myString, xmlDoc);
+                    popup(messagea);
+                    var findg = dateValidate(myString, xmlDoc);
+                    messageb = null;
+                    for(i=0;i<findg.length;i++){
+                        if(messageb == null){
+                            messageb = findg[i];
                         }
                         else{
-                            messagea = messagea+","+findd[i];
+                            messageb = messageb+","+findg[i];
                         }
                     }
-                    if(messagea != null){popup(messagea);}
-                    else{window.location.href="addscribblefeed.action?desc="+myString;}
-                    
                 }
-            }
-            function add(){
-                window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
-                $('#dialog-overlay, #dialog-box').hide();   
+                
             }
         </script>
     </head>
@@ -200,8 +206,23 @@
             <div class="dialog-content">
                 <center>
                     <div id="dialog-message"></div>
-                    <button onclick="add()">Add</button>
+                </center>
+                <center>
+                    <button id="add">Add</button>
                     <button id="close">close</button> 
+                </center>
+            </div>
+        </div>
+        <div id="dialog-overlay2"></div>
+        <div id="dialog-box2">
+            <div id="titlebar2">Welcome</div>
+            <div class="dialog-content2">
+                <center>
+                    <div id="dialog-message2"></div>
+                </center>
+                <center>
+                    <button id="add2">Add</button>
+                    <button id="close2">close</button>
                 </center>
             </div>
         </div>

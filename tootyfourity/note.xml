@@ -1,6 +1,61 @@
-<http>
-	<word id="1">http://</word>
-	<word id="2">wwww.</word>
-	<word id="3">.org</word>
-        <word id="4">.com</word>
-</http>
+
+<roota>
+    <http>
+        <word>http://</word>
+        <word>wwww.</word>
+        <word>.org</word>
+        <word>.com</word>
+    </http>
+    <pre>
+        <pword>coming</pword>
+        <pword>next</pword>
+        <pword>this</pword>
+    </pre>
+    <event>
+        <eword>friday</eword>
+        <eword>monday</eword>
+        <eword>tuesday</eword>
+        <eword>wednesday</eword>
+        <eword>thursday</eword>
+        <eword>saturday</eword>
+        <eword>sunday</eword>
+        <eword>fri</eword>
+        <eword>mon</eword>
+        <eword>tues</eword>
+        <eword>wed</eword>
+        <eword>thurs</eword>
+        <eword>sat</eword>
+        <eword>sun</eword>
+    </event>
+    <post>
+        <poword>jan</poword>
+        <poword>feb</poword>
+        <poword>mar</poword>
+        <poword>apr</poword>
+        <poword>may</poword>
+        <poword>jun</poword>
+        <poword>jul</poword>
+        <poword>aug</poword>
+        <poword>sep</poword>
+        <poword>oct</poword>
+        <poword>nov</poword>
+        <poword>dec</poword>
+        <poword>january</poword>
+        <poword>february</poword>
+        <poword>march</poword>
+        <poword>april</poword>
+        <poword>may</poword>
+        <poword>june</poword>
+        <poword>july</poword>
+        <poword>augest</poword>
+        <poword>september</poword>
+        <poword>october</poword>
+        <poword>november</poword>
+        <poword>december</poword>
+        
+    </post>
+    <sevent>
+        <sword>tommorow</sword>
+        <sword>2morrow</sword>
+    </sevent>
+</roota>

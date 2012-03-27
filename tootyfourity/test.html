@@ -1,0 +1,42 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style type="text/css">
+            body { font-family: Arial; font-size: 0.8em; }
+            h4 { margin: 0.5em 0 0 0 }
+        </style>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#getData").click( function() {
+                    $.getJSON("new_data.json",
+                    function(data){
+                        //empty out the div that will hold the generated content
+                        $("#artistsContent").empty();
+                        //call the tmpl function, pass in the data and have it append to artistsContainer
+                        $("#artistsTemplate").tmpl( data ).appendTo("#artistsContent");
+                        //indicate when last loaded
+                        var nowIs = new Date().toLocaleString();
+                        $('#lastLoad').html( nowIs );
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div><button id="getData">Load Data</button> <span id="lastLoad"></span></div>
+
+        <script id="artistsTemplate" type="text/x-jquery-tmpl">
+            <div><h4>#${artistid} <a href="#">${firstname}</a> ${lastname}</h4>${city} ${state}</div>
+        </script>
+
+        <div id="artistsContent"></div>
+    </body>
+</html>

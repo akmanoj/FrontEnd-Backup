@@ -125,11 +125,12 @@
             xmlhttp.send();
             xmlDoc=xmlhttp.responseXML;
             var messagea;
+            var messageb;
             var myString;
             var findc = [];
             $(document).ready(function () {
-                 $('#close, #dialog-overlay').click(function () {     
-                    window.location.href="addscribblefeed.action?desc="+myString;
+                $('#close, #dialog-overlay').click(function () {     
+                    //window.location.href="addscribblefeed.action?desc="+myString;
                     $('#dialog-overlay, #dialog-box').hide(); 
                     return false;
                 });   
@@ -146,6 +147,7 @@
                 $('#dialog-box').css({top:dialogTop, left:dialogLeft}).show();
                 $('#dialog-message').html(message);
             }
+            
             function check(){
                 myString =document.getElementById('feed').value ;
                 if(myString==""){
@@ -172,19 +174,109 @@
                             }}}
                     for(var i=0;i<findd.length;i++){
                         if(i==0){
-                            messagea = findd[i];
+                            messageb = findd[i];
                         }
                         else{
-                            messagea = messagea+","+findd[i];
+                            messageb = messageb+","+findd[i];
                         }
                     }
-                    if(messagea != null){popup(messagea);}
-                    else{window.location.href="addscribblefeed.action?desc="+myString;}
+                    if(messageb != null){popup(messageb); messageb=null;}
+                    
+                    var find5;
+                    var finde = [];
+                    var y=xmlDoc.getElementsByTagName("eword");
+                    findf = [];
+                    for (var j=0;j<y.length;j++)
+                    {
+                        var finda = myString.indexOf(y[j].childNodes[0].nodeValue);
+                        if(finda >= 0){
+                            finde[finde.length] = y[j].childNodes[0].nodeValue;
+                        }
+                    }
+                    var cool3 = myString.split(/[\s]/);
+                    p=xmlDoc.getElementsByTagName("sword");
+                    var find6;
+                    for(var i=0;i<cool3.length;i++){
+                        for(k=0;k<p.length;k++){
+                            var find3 = cool3[i].indexOf(p[k].childNodes[0].nodeValue);
+                            if(find3 >= 0){
+                                find6 = o[k].childNodes[0].nodeValue;
+                                break;
+                            }
+                            if(find6 != null){findf[findf.length] = find6;}
+                        }
+                    }
+                    var cool2 = myString.split(/[\s]/);
+                    var match = /\d{2}/.test(myString);
+                    o=xmlDoc.getElementsByTagName("poword");
+                    if(match){
+                        for(i=0;i<cool2.length;i++){
+                            var regexp = /^(\d{2})[-\/.](\d{2})[-\/.](\d{2})$/
+                            var valid =regexp.test(cool2[i]);
+                            if(valid){findf[findf.length] = cool2[i];}
+                            else{
+                                for(k=0;k<o.length;k++){
+                                    find3 = cool2[i+1].indexOf(o[k].childNodes[0].nodeValue);
+                                    if(find3 >= 0){
+                                        find4 = o[k].childNodes[0].nodeValue;
+                                        break;
+                                    }                                       
+                                }
+                                if(find4 != null){find5 = find4 + " " +cool2[i];}
+                                if(find5 != null){
+                                    findf[findf.length] = find5;
+                                    find5 = null;
+                                    loop = 0;
+                                    break;
+                                    find2 = -2;
+                                }
+                            }
+                        }
+                    }
+                    if(finde.length != 0){   
+                        z=xmlDoc.getElementsByTagName("pword");
+                        var find3;
+                        for(i=0;i<cool2.length;i++){
+                            for(j=0;j<finde.length;j++){
+                                var find2 = cool2[i].indexOf(finde[j]);
+                                if(find2 >= 0){
+                                    var find4;
+                                    for(k=0;k<z.length;k++){
+                                        find3 = cool2[i-1].indexOf(z[k].childNodes[0].nodeValue);
+                                        if(find3 >= 0){
+                                            find4 = z[k].childNodes[0].nodeValue;
+                                            break;
+                                        }
+                                        
+                                    }
+                                    if(find4 != null){find5 = find4 + " " +cool2[i];}
+                                }
+                                if(find5 != null){
+                                    findf[findf.length] = find5;
+                                    find5 = null;
+                                    loop = 0;
+                                    break;
+                                    find2 = -2;
+                                }
+                            }
+                        }
+                        
+                    }
                     
                 }
+                for(i=0;i<findf.length;i++){
+                    if(i==0){
+                        messagea = findf[i];
+                    }
+                    else{
+                        messagea = messagea+","+findf[i];
+                    }
+                }
+                if(messagea != null){popup(messagea); messagea = null;}
+                //else{window.location.href="addscribblefeed.action?desc="+myString;}
             }
             function add(){
-                window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
+                //window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
                 $('#dialog-overlay, #dialog-box').hide();   
             }
         </script>
