@@ -1,4 +1,3 @@
-
 <roota category="ads">
     <http>
         <word>http://</word>
@@ -11,47 +10,47 @@
         <pword>next</pword>
         <pword>this</pword>
     </pre>
-    <event>        
+    <event>
         <eword>friday</eword>
-        <eword>fri</eword>
         <eword>monday</eword>
-        <eword>mon</eword>
         <eword>tuesday</eword>
-        <eword>tues</eword>
         <eword>wednesday</eword>
-        <eword>wed</eword>
         <eword>thursday</eword>
-        <eword>thurs</eword>
         <eword>saturday</eword>
+        <eword>sunday</eword>
+        <eword>fri</eword>
+        <eword>mon</eword>
+        <eword>tues</eword>
+        <eword>wed</eword>
+        <eword>thurs</eword>
         <eword>sat</eword>
-        <eword>sunday</eword> 
         <eword>sun</eword>
     </event>
     <post>
-        <poword>january</poword>
         <poword>jan</poword>
-        <poword>february</poword>
         <poword>feb</poword>
-        <poword>march</poword>
         <poword>mar</poword>
-        <poword>april</poword>
         <poword>apr</poword>
         <poword>may</poword>
+        <poword>jun</poword>
+        <poword>jul</poword>
+        <poword>aug</poword>
+        <poword>sep</poword>
+        <poword>oct</poword>
+        <poword>nov</poword>
+        <poword>dec</poword>
+        <poword>january</poword>
+        <poword>february</poword>
+        <poword>march</poword>
+        <poword>april</poword>
         <poword>may</poword>
         <poword>june</poword>
-        <poword>jun</poword>
         <poword>july</poword>
-        <poword>jul</poword>
         <poword>augest</poword>
-        <poword>aug</poword>
         <poword>september</poword>
-        <poword>sep</poword>
         <poword>october</poword>
-        <poword>oct</poword>
         <poword>november</poword>
-        <poword>nov</poword>
         <poword>december</poword> 
-        <poword>dec</poword>
     </post>
     <sevent>
         <sword>tommorow</sword>
@@ -62,9 +61,4 @@
         <potime>pm</potime>
         <potime>o'clock</potime>
     </eventtime>
-    <eventlocation>
-        <location>at</location>
-        <location>@</location>
-    </eventlocation>
-    
 </roota>

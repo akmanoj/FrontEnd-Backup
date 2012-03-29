@@ -1,0 +1,302 @@
+<html>
+    <head><title>Analysis</title>
+        <script src="js/jquery.js"></script>
+        <style>
+            #dialog-overlay {
+
+                /* set it to fill the whil screen */
+                width:100%; 
+                height:100%;
+
+                /* transparency for different browsers */
+                filter:alpha(opacity=50); 
+                -moz-opacity:0.5; 
+                -khtml-opacity: 0.5; 
+                opacity: 0.5; 
+                background:#000; 
+
+                /* make sure it appear behind the dialog box but above everything else */
+                position:absolute; 
+                top:0; left:0; 
+                z-index:3000; 
+
+                /* hide it by default */
+                display:none;
+            }
+
+
+            #dialog-box {
+
+                /* css3 drop shadow */
+                -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+                -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+                /* css3 border radius */
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+
+                background:#eee;
+                /* styling of the dialog box, i have a fixed dimension for this demo */
+                width:328px; 
+
+                /* make sure it has the highest z-index */
+                position:absolute; 
+                z-index:5000; 
+
+                /* hide it by default */
+                display:none;
+            }
+
+            #dialog-box .dialog-content {
+                /* style the content */
+                text-align:left; 
+                padding:10px; 
+                margin:13px;
+                color:#666; 
+                font-family:arial;
+                font-size:12px; 
+            }
+            #titlebar {
+                /* styles for button */
+                text-align:center;
+                display: block;
+                background-color: #e33100;
+                color: #fff;
+                text-decoration: none;
+                font-weight: bold;
+                line-height: 1;
+                padding:10px; 
+            }
+
+            button {
+                /* styles for button */
+                margin:10px auto 0 auto;
+                text-align:center;
+                display: block;
+                width:50px;
+                padding: 5px 10px 6px;
+                color: #fff;
+                text-decoration: none;
+                font-weight: bold;
+                line-height: 1;
+                /* button color */
+                background-color: #e33100;
+
+                /* css3 implementation :) */
+                /* rounded corner */
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+
+                /* drop shadow */
+                -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+                -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+
+                /* text shaow */
+                text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+                border-bottom: 1px solid rgba(0,0,0,0.25);
+                position: relative;
+                cursor: pointer;
+
+            }
+
+            button:hover {
+                background-color: #c33100;  
+            }
+
+            /* extra styling */
+            #dialog-box .dialog-content p {
+                font-weight:900; margin:0;
+            }
+
+            #dialog-box .dialog-content ul {
+                margin:10px 0 10px 20px; 
+                padding:0; 
+                height:50px;
+            }
+        </style>
+        <script type="text/javascript">
+            if (window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }
+            else{
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET","note.xml",false);
+            xmlhttp.send();
+            xmlDoc=xmlhttp.responseXML;
+            var messagea;
+            var messageb;
+            var myString;
+            var findc = [];
+            $(document).ready(function () {
+                $('#close, #dialog-overlay').click(function () {     
+                    //window.location.href="addscribblefeed.action?desc="+myString;
+                    $('#dialog-overlay, #dialog-box').hide(); 
+                    return false;
+                });   
+                $(window).resize(function () {
+                    if (!$('#dialog-box').is(':hidden')) popup();       
+                }); 
+            });
+            function popup(message) {
+                var maskHeight = $(document).height();  
+                var maskWidth = $(window).width();
+                var dialogTop =  (maskHeight/3) - ($('#dialog-box').height());  
+                var dialogLeft = (maskWidth/2) - ($('#dialog-box').width()/2); 
+                $('#dialog-overlay').css({height:maskHeight, width:maskWidth}).show();
+                $('#dialog-box').css({top:dialogTop, left:dialogLeft}).show();
+                $('#dialog-message').html(message);
+            }
+            
+            function check(){
+                myString =document.getElementById('feed').value ;
+                if(myString==""){
+                    document.getElementById('ins').innerHTML="Please Enter any Feed";
+                }
+                else{
+                    var x=xmlDoc.getElementsByTagName("word");
+                    for (var j=0;j<x.length;j++)
+                    {
+                        var finda = myString.indexOf(x[j].childNodes[0].nodeValue);
+                        if(finda >= 0){
+                            findc[findc.length] = x[j].childNodes[0].nodeValue;
+                        }}
+                    findd = [];
+                    var cool2 = myString.split(/[\s]/);
+                    for(var i=0;i<cool2.length;i++){
+                        for(var j=0;j<findc.length;j++){
+                            var find2 = cool2[i].indexOf(findc[j]);
+                            if(find2 >= 0){
+                                findd[findd.length] = cool2[i]
+                                loop = 0;
+                                break;
+                                find2 = -2;
+                            }}}
+                    for(var i=0;i<findd.length;i++){
+                        if(i==0){
+                            messageb = findd[i];
+                        }
+                        else{
+                            messageb = messageb+","+findd[i];
+                        }
+                    }
+                    if(messageb != null){popup(messageb); messageb=null;}
+                    
+                    var find5;
+                    var finde = [];
+                    var y=xmlDoc.getElementsByTagName("eword");
+                    findf = [];
+                    for (var j=0;j<y.length;j++)
+                    {
+                        var finda = myString.indexOf(y[j].childNodes[0].nodeValue);
+                        if(finda >= 0){
+                            finde[finde.length] = y[j].childNodes[0].nodeValue;
+                        }
+                    }
+                    var cool3 = myString.split(/[\s]/);
+                    p=xmlDoc.getElementsByTagName("sword");
+                    var find6;
+                    for(var i=0;i<cool3.length;i++){
+                        for(k=0;k<p.length;k++){
+                            var find3 = cool3[i].indexOf(p[k].childNodes[0].nodeValue);
+                            if(find3 >= 0){
+                                find6 = o[k].childNodes[0].nodeValue;
+                                break;
+                            }
+                            if(find6 != null){findf[findf.length] = find6;}
+                        }
+                    }
+                    var cool2 = myString.split(/[\s]/);
+                    var match = /\d{2}/.test(myString);
+                    o=xmlDoc.getElementsByTagName("poword");
+                    if(match){
+                        for(i=0;i<cool2.length;i++){
+                            var regexp = /^(\d{2})[-\/.](\d{2})[-\/.](\d{2})$/
+                            var valid =regexp.test(cool2[i]);
+                            if(valid){findf[findf.length] = cool2[i];}
+                            else{
+                                for(k=0;k<o.length;k++){
+                                    find3 = cool2[i+1].indexOf(o[k].childNodes[0].nodeValue);
+                                    if(find3 >= 0){
+                                        find4 = o[k].childNodes[0].nodeValue;
+                                        break;
+                                    }                                       
+                                }
+                                if(find4 != null){find5 = find4 + " " +cool2[i];}
+                                if(find5 != null){
+                                    findf[findf.length] = find5;
+                                    find5 = null;
+                                    loop = 0;
+                                    break;
+                                    find2 = -2;
+                                }
+                            }
+                        }
+                    }
+                    if(finde.length != 0){   
+                        z=xmlDoc.getElementsByTagName("pword");
+                        var find3;
+                        for(i=0;i<cool2.length;i++){
+                            for(j=0;j<finde.length;j++){
+                                var find2 = cool2[i].indexOf(finde[j]);
+                                if(find2 >= 0){
+                                    var find4;
+                                    for(k=0;k<z.length;k++){
+                                        find3 = cool2[i-1].indexOf(z[k].childNodes[0].nodeValue);
+                                        if(find3 >= 0){
+                                            find4 = z[k].childNodes[0].nodeValue;
+                                            break;
+                                        }
+                                        
+                                    }
+                                    if(find4 != null){find5 = find4 + " " +cool2[i];}
+                                }
+                                if(find5 != null){
+                                    findf[findf.length] = find5;
+                                    find5 = null;
+                                    loop = 0;
+                                    break;
+                                    find2 = -2;
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                for(i=0;i<findf.length;i++){
+                    if(i==0){
+                        messagea = findf[i];
+                    }
+                    else{
+                        messagea = messagea+","+findf[i];
+                    }
+                }
+                if(messagea != null){popup(messagea); messagea = null;}
+                //else{window.location.href="addscribblefeed.action?desc="+myString;}
+            }
+            function add(){
+                //window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
+                $('#dialog-overlay, #dialog-box').hide();   
+            }
+        </script>
+    </head>
+    <body>
+    <center>
+        <textarea rows="5" cols="80" id="feed"></textarea>
+        <div id="ins"></div>
+        <button id="submit" onclick="check()">Feed</button>
+        <div id="dialog-overlay"></div>
+        <div id="dialog-box">
+            <div id="titlebar">Welcome</div>
+            <div class="dialog-content">
+                <center>
+                    <div id="dialog-message"></div>
+                    <button onclick="add()">Add</button>
+                    <button id="close">close</button> 
+                </center>
+            </div>
+        </div>
+    </center>
+</body>
+</html>

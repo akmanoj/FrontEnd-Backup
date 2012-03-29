@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Facebook Extract Link Data</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+ 
+    
+ <script type="text/javascript">
+
+
+ $(document).ready(function()
+{
+
+$("#contentbox").keyup(function()
+{
+var content=$(this).val();
+var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+var url= content.match(urlRegex);
+
+
+if(url.length>0)
+{
+
+$("#linkbox").slideDown('show');
+$("#linkbox").html("<img src='link_loader.gif'>");
+$.get("urlget.php?url="+url,function(response)
+{
+var title=(/<title>(.*?)<\/title>/m).exec(response)[1];
+var logo=(/src='(.*?)'/m).exec(response)[1];
+
+
+$("#linkbox").html("<img src='"+logo+"' class='img'/><div><b>"+title+"</b><br/>"+url)
+
+});
+
+}
+return false();
+});
+
+});
+</script>
+<style>
+body
+{
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;
+}
+#contentbox
+{
+width:458px; height:50px;
+border:solid 2px #dedede;
+font-family:Arial, Helvetica, sans-serif;
+font-size:14px;
+margin-bottom:6px;
+
+}
+.img
+{
+float:left; width:150px; margin-right:10px;
+text-align:center;
+}
+#linkbox
+{
+border:solid 2px #dedede; min-height:50px; padding:15px;
+display:none;
+}
+
+
+</style>
+</head>
+
+<body>
+<h3>Tutorial link <a href="http://www.9lessons.info/2010/06/facebook-like-extracting-url-data-with.html">Click Here</a></h3>
+<div id="xxx"></div>
+<div style="margin:50px; padding:10px; width:460px">
+<div style="height:25px">
+
+<div style="float:left"><b>Facebook Box</b><br />Eg: 9lessons programmin blog http://www.9lessons.info</div>
+
+
+</div>
+<textarea id="contentbox"></textarea>
+
+<div id="linkbox">
+
+
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

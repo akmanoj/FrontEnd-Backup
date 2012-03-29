@@ -1,0 +1,22 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript">
+            $.get("testjson.html", function(response){
+                alert((/<title>(.*?)<\/title>/m).exec(response)[1]);
+            });
+        </script>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    </head>
+
+    <body>
+        <div>TODO write content</div>
+    </body>
+</html>

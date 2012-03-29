@@ -1,0 +1,49 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript">
+
+            function calc(){
+                var string = document.getElementById('ques').value;
+                var cool2 = string.split(/[\s]/);
+                var finda = [];
+                var findb = [];
+                for(i=0;i<cool2.length;i++){
+                    var valid = /\*|\+|\-/.test(cool2[i]);
+                    if(valid){
+                        findb[findb.length] = cool2[i];
+                    }
+                    var valid2 = /\d{2}/.test(cool2[i]);
+                    if(valid2){
+                        finda[finda.length] = cool2[i];
+                    }
+                }
+                var cakla;
+                for(i=0;i<findb.length;i++){
+                    if(findb[i]=="*"){
+                       cakla = finda[0] * finda[1];
+                    }
+                    if(findb[i]=="*"){
+                       cakla = finda[0] * finda[1];
+                    }
+                    if(findb[i]=="*"){
+                       cakla = finda[0] * finda[1];
+                    }
+                }
+                
+                
+                alert(cakla);
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="ques">
+        <button onclick="calc()">calculate</button>
+    </body>
+</html>

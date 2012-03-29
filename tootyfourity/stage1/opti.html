@@ -1,0 +1,57 @@
+<html>
+    <head><title>Analysis</title>
+        <script src="js/jquery.js"></script>
+        <script src="analysis.js"></script>
+        <script src="popup.js"></script>
+        <script src="load.js"></script>
+        <link rel="stylesheet" type="text/css" href="popup.css" />
+        <script type="text/javascript">
+            if (window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }
+            else{
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET","note.xml",false);
+            xmlhttp.send();
+            xmlDoc=xmlhttp.responseXML;
+            var messagea;
+            var messageb;
+            var myString;
+            
+        </script>
+    </head>
+    <body>
+    <center>
+        <textarea rows="5" cols="80" id="feed"></textarea>
+        <div id="ins"></div>
+        <button id="submit" onclick="check()">Feed</button>
+        <div id="dialog-overlay"></div>
+        <div id="dialog-box">
+            <div id="titlebar">Welcome</div>
+            <div class="dialog-content">
+                <center>
+                    <div id="dialog-message"></div>
+                </center>
+                <center>
+                    <button id="add">Add</button>
+                    <button id="close">close</button> 
+                </center>
+            </div>
+        </div>
+        <div id="dialog-overlay2"></div>
+        <div id="dialog-box2">
+            <div id="titlebar2">Welcome</div>
+            <div class="dialog-content2">
+                <center>
+                    <div id="dialog-message2"></div>
+                </center>
+                <center>
+                    <button id="add2">Add</button>
+                    <button id="close2">close</button>
+                </center>
+            </div>
+        </div>
+    </center>
+</body>
+</html>

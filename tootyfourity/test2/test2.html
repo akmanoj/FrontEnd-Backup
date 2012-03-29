@@ -1,0 +1,48 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <style type="text/css">
+            .container{
+                color: black;
+            }
+        </style>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#getData").click( function() {
+                    $.getJSON("new_data.json",
+                    function(data){
+                        var length = data.length;
+
+                        // Walk backward through the array, adding each new item 
+                        //    to the top of the container
+                        while(length--) {
+                            // Create new .container div
+                            $('<div/>', {className:'container'})
+
+                            // Append new divs to the $container with proper class and data.
+                            // data[length][...] uses the current index stored in the length variable
+                            .append( $('<div/>', {className:'author', text:data[length]['author']} ) )
+                            .append( $('<div/>', {className:'message', text:data[length]['message']} ) )
+                            .append( $('<div/>', {className:'time', text:data[length]['time']} ) )
+
+                            // Prepend $container to the #content div
+                            .prependTo( '#content' );
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div><button id="getData">Load Data</button> <span id="lastLoad"></span></div>
+
+        <div id="content"></div>
+    </body>
+</html>

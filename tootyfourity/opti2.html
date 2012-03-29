@@ -1,0 +1,72 @@
+<html>
+    <head><title>Analysis</title>
+        <script src="js/jquery.js"></script>
+        <script src="analysis3.js"></script>
+        <script src="popup2.js"></script>
+        <script src="load2.js"></script>
+        <link rel="stylesheet" type="text/css" href="popup.css" />
+        <style>
+            .con{
+                border-color: darkmagenta;
+            }
+            #cool{
+                color:#666; 
+                background:#eee;
+                float: left;
+            }
+        </style>
+        <script type="text/javascript">
+            if (window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }
+            else{
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET","note.xml",false);
+            xmlhttp.send();
+            xmlDoc=xmlhttp.responseXML;
+            var messagea;
+            var messageb;
+            var myString;
+            
+        </script>
+    </head>
+    <body>
+    <center>
+        <textarea rows="5" cols="80" id="feed"></textarea>
+        <div id="ins"></div>
+        <button id="submit" onclick="check()">Feed</button>
+        <div id="dialog-overlay"></div>
+        <div id="dialog-box">
+            <div id="titlebar">Welcome</div>
+            <div class="dialog-content">
+                <div id="cool"></div>
+                <button id="add">Add</button>
+                <button id="close">close</button> 
+            </div>
+        </div>
+        <div id="dialog-overlay2"></div>
+        <div id="dialog-box2">
+            <div id="titlebar2">Welcome</div>
+            <div class="dialog-content2">
+                 <div id="dialog-message2"></div>
+                <center>
+                    Event Name:<input type="text"><br>
+                    Start Date:<input type="text" id="sdate"><a href="#">Prev</a> <a href="#">Next</a><br>
+                    End Date:<input type="text" id="edate"><a href="#">Prev</a> <a href="#">Next</a><br>
+                    Time:<input type="text" id="time"><a href="#">Prev</a> <a href="#">Next</a><br>
+                    Location<input type="text" id="location"><a href="#">Prev</a> <a href="#">Next</a><br>
+                    Note:<textarea rows="3" cols="20" id="note"></textarea><br>
+                </center>
+
+
+                <center>
+                    <button id="add2">Add</button>
+                    <button id="addAnother">Add Another Event</button>
+                    <button id="close2">close</button>
+                </center>
+            </div>
+        </div> 
+    </center>
+</body>
+</html>

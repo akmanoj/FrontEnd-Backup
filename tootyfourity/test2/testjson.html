@@ -1,0 +1,47 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>asdfasdfasdf</title>
+        <style type="text/css">
+            .container{
+                color: black;
+            }
+        </style>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#getData").click( function() {
+                    $.getJSON("new_data.json",
+                    function(data){
+                        var length = data.length;
+                        while(length--) {
+                            var div1 = document.createElement("div");
+                            div1.setAttribute("class", "con");
+                            var input1 = document.createElement("input");
+                            input1.setAttribute("type", "text");
+                            input1.setAttribute("value", data[length]['firstname']);
+                            var input2 = document.createElement("input");
+                            input2.setAttribute("type", "text");
+                            input2.setAttribute("value", data[length]['lastname']);
+                            var texta = document.createElement("textarea");
+                            texta.appendChild(document.createTextNode(data[length]['city']))
+                            div1.appendChild(input1);
+                            div1.appendChild(input2);
+                            div1.appendChild(texta);
+                            document.getElementById('content').appendChild(div1);
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div><button id="getData">Load Data</button> <span id="lastLoad"></span></div>
+
+        <div id="content"></div>
+    </body>
+</html>

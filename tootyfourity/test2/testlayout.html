@@ -1,0 +1,53 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <style type="text/css">
+            .container{
+                color: black;
+            }
+        </style>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#getData").click( function() {
+                    $.getJSON("sample.json",
+                    function(data){
+                        var length = data.length;
+                        while(length--) {
+                            var div1 = document.createElement("div");
+                            div1.setAttribute("class", "con");
+                            var div2 = document.createElement("div");
+                            div2.appendChild(document.createTextNode(data[length]['feed']));
+                            var div3 = document.createElement("div");
+                            div3.appendChild(document.createTextNode(data[length]['username']));
+                            var div4 = document.createElement("div");
+                            div4.appendChild(document.createTextNode(data[length]['datetime']));
+                            
+                            
+
+                            div1.appendChild(div2);
+                            div1.appendChild(div3);
+                            div1.appendChild(div4);
+                            document.getElementById('content').appendChild(div1);
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div><button id="getData">Load Data</button> <span id="lastLoad"></span></div>
+
+        <div id="content">
+            <div><a href="http://google.com"><img src="user_64.png"></a></div>
+            <div><p>alfdaksdlfjalsdfjaldsjladjflasjdlf</p></div>
+            <div>Manoj</div>
+        </div>
+            
+    </body>
+</html>
