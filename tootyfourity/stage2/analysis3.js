@@ -1,7 +1,7 @@
 function urlValidate(string, xml){
     var x=xml.getElementsByTagName("word");
     var findc=[];
-    var findd = [];
+    var messageb;
     for (j=0;j<x.length;j++)
     {
         var finda = string.indexOf(x[j].childNodes[0].nodeValue);
@@ -10,10 +10,11 @@ function urlValidate(string, xml){
         }
     }
     if(findc.length != 0){
-        
+        var findd = [];
         var cool2 = string.split(/[\s]/);
         for(i=0;i<cool2.length;i++){
             for(j=0;j<findc.length;j++){
+                var find2 = cool2[i].indexOf(findc[j]);
                 var find2 = cool2[i].indexOf(findc[j]);
                 if(find2 >= 0){
                     if(cool2[i].indexOf("http://") < 0)
@@ -28,9 +29,22 @@ function urlValidate(string, xml){
                 }
             }
         }
-
+        for(i=0;i<findd.length;i++){
+            if(i==0){
+                messageb = findd[i];
+            }
+            else{
+                messageb = messageb+","+findd[i];
+            }
+        }
+        
     }
-    return findd;
+    if(messageb != null){
+        return messageb;
+    }
+    else{
+        return null;
+    }
 }
 function dateValidateSingleWord(string, xml, findf){
     var cool3 = string.split(/[\s]/);
@@ -102,7 +116,7 @@ function dateValidatePhrase(string, xml, findf){
         }
     }
     if(finde.length != 0){   
-        var date;
+        
         var z = xml.getElementsByTagName("pword");
         for(i=0;i<cool2.length;i++){
             for(j=0;j<finde.length;j++){
@@ -111,15 +125,12 @@ function dateValidatePhrase(string, xml, findf){
                     var find4;
                     find4 = prePostValidate(cool2[i-1],z);
                     if(find4 != null){
-                        date = nextDay("next " + cool2[i]);
+                        var date = nextDay("next " + cool2[i]);
                         findf[findf.length] = date.getDate()+ "/" + (date.getMonth()+1) + "/" + date.getFullYear();
                     //findf[findf.length] = find4 + " " + cool2[i];
                     }
-                    else{
-                        date = nextDay(cool2[i]);
-                        findf[findf.length] = (date.getMonth()+1) + "/" + date.getDate()+ "/" +  date.getFullYear();
-                    }
                 }
+                
             }
             
         }

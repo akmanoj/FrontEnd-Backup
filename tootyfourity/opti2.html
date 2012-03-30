@@ -1,10 +1,18 @@
 <html>
     <head><title>Analysis</title>
         <script src="js/jquery.js"></script>
+        <script src="js/jquery.ui.js"></script>
+        <script src="js/jquery.ui.datepicker.js"></script>
+        <script src="js/jquery.ui.position.js"></script>
+        <script src="js/jquery.ui.timepicker.js"></script>
         <script src="analysis3.js"></script>
         <script src="popup2.js"></script>
         <script src="load2.js"></script>
+        <script src="date.js"></script>
         <link rel="stylesheet" type="text/css" href="popup.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.datepicker.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery-ui-1.8.18.custom.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.timepicker.css" />
         <style>
             .con{
                 border-color: darkmagenta;
@@ -28,7 +36,40 @@
             var messagea;
             var messageb;
             var myString;
-            
+            $(function() {
+                
+                var currentTime = new Date(),
+                // cache your selection already
+                $dateFields = $('#sdate, #edate');
+
+                // set all fields to readonly
+                //$dateFields.attr('readonly', 'readonly');
+
+                // the options are the same for all instances
+                var options = {
+                    showButtonPanel: true,
+                    changeMonth: true,
+                    changeYear: true,
+                    numberOfMonths: 1,
+                    minDate: new Date(2010, 1 - 1, 1),
+                    maxDate: new Date(currentTime.getFullYear(), 11, 31),
+                    dateFormat: "mmm/dd/yyy",
+                    // set the date on open so the populated date is selected in the widget
+                    beforeShow: function(input, instance) {
+                        $(input).datepicker('setDate', $(input).val());
+                    }
+                };
+
+                // instanciate datepicker with the options for all the fields
+                $dateFields.datepicker(options);
+                $('#time').timepicker();
+                // apply separately the option 'altField' accordingly
+                /*$('#report2from1').datepicker('option', 'altField', '#sdate');
+                $('#report2from2').datepicker('option', 'altField', '#report2from1');
+                $('#report2to1').datepicker('option', 'altField', '#report2to2');
+                $('#report2to2').datepicker('option', 'altField', '#report2to1');*/
+
+            });
         </script>
     </head>
     <body>
@@ -49,12 +90,12 @@
         <div id="dialog-box2">
             <div id="titlebar2">Welcome</div>
             <div class="dialog-content2">
-                 <div id="dialog-message2"></div>
+                <div id="dialog-message2"></div>
                 <center>
                     Event Name:<input type="text"><br>
                     Start Date:<input type="text" id="sdate"><a href="#">Prev</a> <a href="#">Next</a><br>
                     End Date:<input type="text" id="edate"><a href="#">Prev</a> <a href="#">Next</a><br>
-                    Time:<input type="text" id="time"><a href="#">Prev</a> <a href="#">Next</a><br>
+                    Time:<input type="text" id="time"><input type="checkbox" id="allt" value="AllDay" />All Day<br>
                     Location<input type="text" id="location"><a href="#">Prev</a> <a href="#">Next</a><br>
                     Note:<textarea rows="3" cols="20" id="note"></textarea><br>
                 </center>

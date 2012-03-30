@@ -33,9 +33,11 @@ function popup2(message, findf, findh, findi) {
     $('#time').val("");
     $('#location').val("");
     $('#note').val("");
+    $('#allt').attr('checked', false);
     
     $('#sdate').val(findf[0]);
     $('#edate').val(findf[1]);
+    if(findh.length==0){$('#allt').attr('checked', true);}
     $('#time').val(findh[0]);
     $('#location').val(findi[0]);
     $('#note').val(myString);
@@ -74,12 +76,12 @@ function check(){
                     val:'aaaa'
                 } ) ) */
                 var title;
-                $.get("urlget.php?url="+messagea[i],function(response)
+                /*$.get("urlget.php?url="+messagea[i],function(response)
                 {
                     title=(/<title>(.*?)<\/title>/m).exec(response)[1];
                     
 
-                });
+                });*/
 
                 var div1 = document.createElement("div");
                 div1.setAttribute("class", "con");
@@ -113,7 +115,7 @@ function check(){
                 messageb = messageb+","+findg[i];
             }
         }
-        if(messageb.length!=0 && messagea.length==0){
+        if(messageb!=null && messagea.length==0){
             popup2(messageb, findg, findh, findi);
         }
     }
