@@ -1,0 +1,160 @@
+<html>
+    <head><title>Analysis</title>
+        <script src="js/jquery-latest.min.js"></script>
+        <script src="js/jquery.ui.js"></script>
+        <script src="js/jquery.ui.datepicker.js"></script>
+        <script src="js/jquery.ui.position.js"></script>
+        <script src="js/jquery.ui.widget.js"></script>
+        <script src="js/jquery.ui.timepicker.js"></script>
+        <script src="js/jquery.ui.dialog.js"></script>
+        <script src="js/jquery.ui.button.js"></script>
+        <script src="js/jquery.ui.selectmenu.js"></script>
+        <script src="analysis3.js"></script>
+        <script src="popup2.js"></script>
+        <script src="date.js"></script>
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.base.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.theme.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.datepicker.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery-ui-1.8.18.custom.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.timepicker.css" />
+        <link rel="stylesheet" type="text/css" href="js/ui.selectmenu.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.dialog.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.button.css" />
+        <style>
+            .con{
+                border-color: darkmagenta;
+            }
+            #cool{
+                color:#666; 
+                background:#eee;
+                float: left;
+            }
+            fieldset { border:0;  margin-bottom: 40px;}	
+            /*label,select,.ui-select-menu { float: left; margin-right: 10px; }*/
+            select { width: 100px; }
+
+            /*select with custom icons*/
+
+
+        </style>
+        <script type="text/javascript">
+            if (window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }
+            else{
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET","note.xml",false);
+            xmlhttp.send();
+            xmlDoc=xmlhttp.responseXML;
+            var messagea;
+            var messageb;
+            var myString;
+            var timezone;
+            $(function() {
+                
+                $dateFields = $('#sdate, #edate');
+
+                $dateFields.datepicker();
+                $('#time').timepicker();
+                $('#etime').timepicker();
+                $( "#dialog-form" ).dialog({
+                    autoOpen: false,
+                    height: 300,
+                    width: 350,
+                    modal: true,
+                    buttons: {
+                        "Create an account": function() {
+                            alert("manoj");
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+
+            });
+        </script>
+    </head>
+    <body>
+    <center>
+        <textarea rows="5" cols="80" id="feed"></textarea>
+        <div id="ins"></div>
+        <button id="submit" onclick="check()">Feed</button>
+        <div id="dialog-overlay"></div>
+        <div id="dialog-box">
+            <div id="titlebar">Welcome</div>
+            <div class="dialog-content" title="Bookmar Dialog">
+                <div id="cool"></div>
+                <button id="add">Add</button>
+                <button id="close">close</button> 
+            </div>
+        </div>
+
+        <div id="dialog-form" title="Create new user">
+            <form>
+                <fieldset>
+                    <div id="dialog-message2"></div>
+                    <center>
+                        Event Name:<input type="text"><br>
+                        Start Date:<input type="text" id="sdate">Time:<input type="text" id="time" style="width:50px">
+
+                        <label for="evttime">Hours:</label>
+                        <select name="evttime" id="evttime">
+                            <option value="1" selected="selected">1 Hour</option>
+                            <option value="2">2 Hour</option>
+                            <option value="3">3 Hour</option>
+                            <option value="4">4 Hour</option>
+                            <option value="5">5 Hour</option>
+                        </select>
+                        <input type="checkbox" id="allt" value="AllDay" />All Day<br>
+                        End Date:<input type="text" id="edate">Time:<input type="text" id="etime" style="width:50px">
+                        Time Difference:<select name="timezoneoffset" id="timezoneoffset">
+                            <option value="+720" >(GMT -12:00 hours) Eniwetok, Kwajalein</option>
+                            <option value="+660" >(GMT -11:00 hours) Midway Island, Samoa</option>
+                            <option value="+600" >(GMT -10:00 hours) Hawaii</option>
+                            <option value="+560" >(GMT -9:00 hours) Alaska</option>
+                            <option value="+480" >(GMT -8:00 hours) Pacific Time (US & Canada)</option>
+                            <option value="+420" >(GMT -7:00 hours) Mountain Time (US & Canada)</option>
+                            <option value="+360" >(GMT -6:00 hours) Central Time (US & Canada), Mexico City</option>
+                            <option value="+300" selected>(GMT -5:00 hours) Eastern Time (US & Canada), Bogota, Lima, Quito</option>
+                            <option value="+240" >(GMT -4:00 hours) Atlantic Time (Canada), Caracas, La Paz</option>
+                            <option value="+210" >(GMT -3:30 hours) Newfoundland</option>
+                            <option value="+180" >(GMT -3:00 hours) Brazil, Buenos Aires, Georgetown</option>
+                            <option value="+120" >(GMT -2:00 hours) Mid-Atlantic</option>
+                            <option value="+60" >(GMT -1:00 hours) Azores, Cape Verde Islands</option>
+                            <option value="0" >(GMT) Western Europe Time, London, Lisbon, Casablanca, Monrovia</option>
+                            <option value="-60" >(GMT +1:00 hours) CET(Central Europe Time), Brussels, Copenhagen, Madrid, Paris</option>
+                            <option value="-120" >(GMT +2:00 hours) EET(Eastern Europe Time), Kaliningrad, South Africa</option>
+                            <option value="-180" >(GMT +3:00 hours) Baghdad, Kuwait, Riyadh, Moscow, St. Petersburg, Volgograd, Nairobi</option>
+                            <option value="-210" >(GMT +3:30 hours) Tehran</option>
+                            <option value="-240" >(GMT +4:00 hours) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                            <option value="-270" >(GMT +4:30 hours) Kabul</option>
+                            <option value="-300" >(GMT +5:00 hours) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                            <option value="-330" >(GMT +5:30 hours) Bombay, Calcutta, Madras, New Delhi</option>
+                            <option value="-360" >(GMT +6:00 hours) Almaty, Dhaka, Colombo</option>
+                            <option value="-420" >(GMT +7:00 hours) Bangkok, Hanoi, Jakarta</option>
+                            <option value="-480" >(GMT +8:00 hours) Beijing, Perth, Singapore, Hong Kong, Chongqing, Urumqi, Taipei</option>
+                            <option value="-540" >(GMT +9:00 hours) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                            <option value="-570" >(GMT +9:30 hours) Adelaide, Darwin</option>
+                            <option value="-600" >(GMT +10:00 hours) EAST(East Australian Standard), Guam, Papua New Guinea, Vladivostok</option>
+                            <option value="-660" >(GMT +11:00 hours) Magadan, Solomon Islands, New Caledonia</option>
+                            <option value="-720" >(GMT +12:00 hours) Auckland, Wellington, Fiji, Kamchatka, Marshall Island</option>
+                        </select><br>
+                        Location<input type="text" id="location"><br>
+                        Note:<textarea rows="5" cols="50" id="note"></textarea><br>
+                    </center>
+
+
+                    <center>
+                        <button id="add2">Add</button>
+                        <button id="addAnother">Add Another Event</button>
+                        <button id="close2">close</button>
+                    </center>
+                </fieldset>
+            </form>
+        </div>
+
+    </center>
+</body>
+</html>

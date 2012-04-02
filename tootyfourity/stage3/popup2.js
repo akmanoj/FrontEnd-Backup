@@ -14,7 +14,18 @@ function popup() {
 }
 
 function popup2(message, findf, findh, findi) {
-
+    var maskHeight = $(document).height();  
+    var maskWidth = $(window).width();
+    var dialogTop =  (maskHeight/3) - ($('#dialog-box2').height());  
+    var dialogLeft = (maskWidth/2) - ($('#dialog-box2').width()); 
+    $('#dialog-overlay2').css({
+        height:maskHeight, 
+        width:maskWidth
+    }).show();
+    $('#dialog-box2').css({
+        top:dialogTop/40, 
+        left:dialogLeft*5
+    }).show();
     $('#dialog-message2').html(message);
     
     $('#sdate').val("");
@@ -31,46 +42,18 @@ function popup2(message, findf, findh, findi) {
     else{
         $('#edate').datepicker('setDate',findf[1]);
     }
-    /*if(findh.length==0){
-        $('#allt').attr('checked', true);
-    }*/
-    var date = new Date();
-    var timezone = date.getTimezoneOffset();
-    if(findh.length ==0){
-        var d = new Date();
-        $('#time').timepicker('setTime',d.toTimeString());
+    if(findh.length==0){$('#allt').attr('checked', true);}
+    $('#time').timepicker('setTime',findh[0]);
+        if(findh.length == 1){
+         $('#etime').timepicker('setTime',findh[0]+1);
     }
     else{
-        $('#time').timepicker('setTime',findh[0]);
-    }
-    if(findh.length > 1){
         $('#etime').timepicker('setTime',findh[1]);
-    }
-    else{
-        var d2 = $('#time').timepicker('getTime'); 
-        var c = d2.split(":");
-        var e = parseInt(c[0])+1;
-        var f = e + ":"+ c[1];
-        var h = Date.parse(f);
-        var g = Date.parse($('#sdate').val()+" " + f);
-        $('#etime').timepicker('setTime', h.toTimeString());
     }
     //$('#time').val(findh[0]);
     $('#timezoneoffset').val(timezone);
     $('#location').val(findi[0]);
     $('#note').val(myString);
-    var maskHeight = $(document).height();  
-    var maskWidth = $(window).width();
-    var dialogTop =  (maskHeight/3) - ($('#dialog-box2').height());  
-    var dialogLeft = (maskWidth/2) - ($('#dialog-box2').width()); 
-    $('#dialog-overlay2').css({
-        height:maskHeight, 
-        width:maskWidth
-    }).show();
-    $('#dialog-box2').css({
-        top:dialogTop/40, 
-        left:dialogLeft*5
-    }).show();
 }
 
 function check(){

@@ -1,0 +1,101 @@
+<html>
+    <head><title>Analysis</title>
+        <script src="js/jquery-latest.min.js"></script>
+        <script src="js/jquery.ui.js"></script>
+        <script src="js/jquery.ui.position.js"></script>
+        <script src="js/jquery.ui.widget.js"></script>
+        <script src="js/jquery.ui.datepicker.js"></script>
+        <script src="js/jquery.ui.dialog.js"></script>
+        <script src="js/jquery.ui.timepicker.js"></script>
+        <script src="js/jquery.ui.button.js"></script>
+        <script src="js/jquery.ui.selectmenu.js"></script>
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.base.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.theme.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.datepicker.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery-ui-1.8.18.custom.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.timepicker.css" />
+        <link rel="stylesheet" type="text/css" href="js/ui.selectmenu.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.dialog.css" />
+        <link rel="stylesheet" type="text/css" href="js/jquery.ui.button.css" />
+        <script type="text/javascript">
+            
+            $(function() {
+                $( "#dialog-form" ).dialog({
+                    autoOpen: false,
+                    height: 300,
+                    width: 350,
+                    modal: true,
+                    buttons: {
+                        "Create an account": function() {
+                            alert("manoj");
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+                $( "#create-user" )
+                .button()
+                .click(function() {
+                    $( "#dialog-form" ).dialog( "open" );
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="titlebar">Welcome</div>
+        <div class="dialog-content" title="Bookmar Dialog">
+            <div id="cool"></div>
+            <button id="add">Add</button>
+            <button id="close">close</button> 
+        </div>
+        <button id="add2" onclick="a()">Add</button>
+        <button id="addAnother">Add Another Event</button>
+        <button id="close2">close</button>
+
+        <div class="demo">
+
+            <div id="dialog-form" title="Create new user">
+                <form>
+                    <fieldset>
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" />
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+                    </fieldset>
+                </form>
+            </div>
+
+
+            <div id="users-contain" class="ui-widget">
+                <h1>Existing Users:</h1>
+                <table id="users" class="ui-widget ui-widget-content">
+                    <thead>
+                        <tr class="ui-widget-header ">
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>john.doe@example.com</td>
+                            <td>johndoe1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button id="create-user">Create new user</button>
+
+        </div><!-- End demo -->
+
+
+
+        <div class="demo-description">
+            <p>Use a modal dialog to require that the user enter data during a multi-step process.  Embed form markup in the content area, set the <code>modal</code> option to true, and specify primary and secondary user actions with the <code>buttons</code> option.</p>
+        </div><!-- End demo-description -->
+    </body>
+</html>

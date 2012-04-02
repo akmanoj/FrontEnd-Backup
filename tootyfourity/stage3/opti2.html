@@ -9,7 +9,6 @@
         <script src="js/jquery.ui.dialog.js"></script>
         <script src="js/jquery.ui.button.js"></script>
         <script src="js/jquery.ui.selectmenu.js"></script>
-        <script src="js/ui.dropdownchecklist-1.4-min.js"></script>
         <script src="analysis3.js"></script>
         <script src="popup2.js"></script>
         <script src="load2.js"></script>
@@ -21,7 +20,6 @@
         <link rel="stylesheet" type="text/css" href="js/ui.selectmenu.css" />
         <link rel="stylesheet" type="text/css" href="js/jquery.ui.dialog.css" />
         <link rel="stylesheet" type="text/css" href="js/jquery.ui.button.css" />
-        <link rel="stylesheet" type="text/css" href="js/ui.dropdownchecklist.themeroller.css" />
         <style>
             .con{
                 border-color: darkmagenta;
@@ -57,9 +55,9 @@
                 
                 //var currentTime = new Date(),
                 // cache your selection already
-                //$dateFields = $('#sdate, #edate');
+                $dateFields = $('#sdate, #edate');
                 //$('#evttime').selectmenu();
-                $('#evttime1').selectmenu({style:'dropdown'});
+                //$('#evttime').selectmenu({style:'dropdown'});
                 // set all fields to readonly
                 //$dateFields.attr('readonly', 'readonly');
 
@@ -79,22 +77,9 @@
                 };*/
 
                 // instanciate datepicker with the options for all the fields
-                var dates = $( "#sdate, #edate" ).datepicker({
-                    changeMonth: true,
-                    onSelect: function( selectedDate ) {
-                        var option = this.id == "sdate" ? "minDate" : "maxDate",
-                        instance = $( this ).data( "datepicker" ),
-                        date = $.datepicker.parseDate(
-                        instance.settings.dateFormat ||
-                            $.datepicker._defaults.dateFormat,
-                        selectedDate, instance.settings );
-                        dates.not( this ).datepicker( "option", option, date );
-                    }
-                });
+                $dateFields.datepicker();
                 $('#time').timepicker();
                 $('#etime').timepicker();
-                $("#reminder").dropdownchecklist({ width: '250px;', firstItemChecksAll: true, maxDropHeight: 200 });
-                //$dateFields.datepicker();
                 // apply separately the option 'altField' accordingly
                 /*$('#report2from1').datepicker('option', 'altField', '#sdate');
                 $('#report2from2').datepicker('option', 'altField', '#report2from1');
@@ -102,53 +87,6 @@
                 $('#report2to2').datepicker('option', 'altField', '#report2to1');*/
 
             });
-            function tpStartOnHourShowCallback(hour) {
-                var tpEndHour = $('#timepicker_end').timepicker('getHour');
-                // Check if proposed hour is prior or equal to selected end time hour
-                if (hour <= tpEndHour) {
-                    return true;
-                }
-                // if hour did not match, it can not be selected
-                return false;
-            }
-            function tpStartOnMinuteShowCallback(hour, minute) {
-                var tpEndHour = $('#timepicker_end').timepicker('getHour');
-                var tpEndMinute = $('#timepicker_end').timepicker('getMinute');
-                // Check if proposed hour is prior to selected end time hour
-                if (hour < tpEndHour) {
-                    return true;
-                }
-                // Check if proposed hour is equal to selected end time hour and minutes is prior
-                if ( (hour == tpEndHour) && (minute < tpEndMinute) ) {
-                    return true;
-                }
-                // if minute did not match, it can not be selected
-                return false;
-            }
-
-            function tpEndOnHourShowCallback(hour) {
-                var tpStartHour = $('#timepicker_start').timepicker('getHour');
-                // Check if proposed hour is after or equal to selected start time hour
-                if (hour >= tpStartHour) {
-                    return true;
-                }
-                // if hour did not match, it can not be selected
-                return false;
-            }
-            function tpEndOnMinuteShowCallback(hour, minute) {
-                var tpStartHour = $('#timepicker_start').timepicker('getHour');
-                var tpStartMinute = $('#timepicker_start').timepicker('getMinute');
-                // Check if proposed hour is after selected start time hour
-                if (hour > tpStartHour) {
-                    return true;
-                }
-                // Check if proposed hour is equal to selected start time hour and minutes is after
-                if ( (hour == tpStartHour) && (minute > tpStartMinute) ) {
-                    return true;
-                }
-                // if minute did not match, it can not be selected
-                return false;
-            }
         </script>
     </head>
     <body>
@@ -184,7 +122,7 @@
                     </select>
                     <input type="checkbox" id="allt" value="AllDay" />All Day<br>
                     End Date:<input type="text" id="edate">Time:<input type="text" id="etime" style="width:50px">
-                    Time Zone:<select name="timezoneoffset" id="timezoneoffset" style="width:200px">
+                    Time Difference:<select name="timezoneoffset" id="timezoneoffset">
                         <option value="+720" >(GMT -12:00 hours) Eniwetok, Kwajalein</option>
                         <option value="+660" >(GMT -11:00 hours) Midway Island, Samoa</option>
                         <option value="+600" >(GMT -10:00 hours) Hawaii</option>
@@ -218,7 +156,6 @@
                     </select><br>
                     Location<input type="text" id="location"><br>
                     Note:<textarea rows="5" cols="50" id="note"></textarea><br>
-                    Reminders:
                 </center>
 
 
@@ -230,19 +167,5 @@
             </div>
         </div> 
     </center>
-    <select name="reminder" id="reminder" multiple="multiple" style="width:200px">
-        <option value="1" >--All--</option>
-        <option value="2" selected="selected">1 Hour</option>
-        <option value="3">Daily</option>
-        <option value="4">Weekly</option>
-        <option value="5">Monthly</option>
-    </select>
-    <select name="evttime1" id="evttime1">
-        <option value="1" selected="selected">1 Hour</option>
-        <option value="2">2 Hour</option>
-        <option value="3">3 Hour</option>
-        <option value="4">4 Hour</option>
-        <option value="5">5 Hour</option>
-    </select>
 </body>
 </html>

@@ -147,10 +147,12 @@ function timeValidate1(string,xml,findh){
                         date = nextDay(cool2[i] + " " + find4);
                         //findh[findh.length] = date.toTimeString();
                     findh[findh.length] = date.toTimeString();
+                    timezone = date.getTimezoneOffset();
                     }
                     else{
                         date = nextDay(cool2[i]);
                         findh[findh.length] = date.toTimeString();
+                        timezone = date.getTimezoneOffset();
                     }
                 }
                 else{
@@ -160,7 +162,7 @@ function timeValidate1(string,xml,findh){
                         date = nextDay(cool2[i] + " " + find4);
                         //findh[findh.length] = date.toTimeString();
                         findh[findh.length] = date.toTimeString();
-                        
+                        timezone = date.getTimezoneOffset();
                     //findh[findh.length] = cool2[i] + " " + find4;
                     }
                 }

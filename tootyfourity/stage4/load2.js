@@ -29,13 +29,5 @@ $(document).ready(function () {
     $('#add2').click(function () {     
         //window.location.href="addbookmarkfeed.action?desc="+myString+"&urls="+message;
         $('#dialog-overlay2, #dialog-box2').hide();  
-    });
-    $("#evttime").change(function() {
-        var d2 = $('#time').timepicker('getTime'); 
-        var c = d2.split(":");
-        var e = parseInt(c[0])+parseInt($('#evttime').val());
-        var f = e + ":"+ c[1];
-        var h = Date.parse(f);
-        $('#etime').timepicker('setTime', h.toTimeString());
-    });
+    });   
 });
