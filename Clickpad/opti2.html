@@ -1,0 +1,297 @@
+<html>
+    <head><title>Analysis</title>
+        <script src="js/jquery-latest.min.js"></script>
+        <script src="js/jquery.ui.js"></script>
+        <script src="js/jquery.ui.datepicker.js"></script>
+        <script src="js/jquery.ui.position.js"></script>
+        <script src="js/jquery.ui.widget.js"></script>
+        <script src="js/jquery.ui.timepicker.js"></script>
+        <script src="js/jquery.ui.dialog.js"></script>
+        <script src="js/jquery.ui.button.js"></script>
+        <script src="js/jquery.ui.selectmenu.js"></script>
+        <script src="js/ui.dropdownchecklist-1.4-min.js"></script>
+        <script src="cusjs/analysis3.js"></script>
+        <script src="cusjs/popup2.js"></script>
+        <script src="cusjs/load2.js"></script>
+        <script src="js/date.js"></script>
+        <link rel="stylesheet" type="text/css" href="cuscss/popup.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.base.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.theme.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.all.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.datepicker.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.18.custom.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.timepicker.css" />
+        <link rel="stylesheet" type="text/css" href="css/ui.selectmenu.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.dialog.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.ui.button.css" />
+        <link rel="stylesheet" type="text/css" href="css/ui.dropdownchecklist.themeroller.css" />
+        <style>
+
+            select {width: 150px; }
+
+            /*select with custom icons*/
+
+        </style>
+        <script type="text/javascript">
+            if (window.XMLHttpRequest){
+                xmlhttp=new XMLHttpRequest();
+            }
+            else{
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET","note.xml",false);
+            xmlhttp.send();
+            xmlDoc=xmlhttp.responseXML;
+            var messagea;
+            var messageb;
+            var myString;
+            var timezone;
+            $(function() {
+                
+                //var currentTime = new Date(),
+                // cache your selection already
+                //$dateFields = $('#sdate, #edate');
+                //$('#evttime').selectmenu();
+                /*$('#evttime1').selectmenu({style:'dropdown'});
+                $('#reminder1').selectmenu({style:'dropdown'});
+                $('#reminder2').selectmenu({style:'dropdown'});
+                $('#reminder3').selectmenu({style:'dropdown'});
+                $('#reminder4').selectmenu({style:'dropdown'});
+                $('#reminder5').selectmenu({style:'dropdown'});
+                $('#reminder6').selectmenu({style:'dropdown'});*/
+                
+                
+                // set all fields to readonly
+                //$dateFields.attr('readonly', 'readonly');
+
+                // the options are the same for all instances
+                /*var options = {
+                    showButtonPanel: true,
+                    changeMonth: true,
+                    changeYear: true,
+                    numberOfMonths: 1,
+                    minDate: new Date(2010, 1 - 1, 1),
+                    maxDate: new Date(currentTime.getFullYear(), 11, 31),
+                    dateFormat: "mmm/dd/yyy",
+                    // set the date on open so the populated date is selected in the widget
+                    beforeShow: function(input, instance) {
+                        $(input).datepicker('setDate', $(input).val());
+                    }
+                };*/
+
+                // instanciate datepicker with the options for all the fields
+                var dates = $( "#sdate, #edate" ).datepicker({
+                    changeMonth: true,
+                    onSelect: function( selectedDate ) {
+                        var option = this.id == "sdate" ? "minDate" : "maxDate",
+                        instance = $( this ).data( "datepicker" ),
+                        date = $.datepicker.parseDate(
+                        instance.settings.dateFormat ||
+                            $.datepicker._defaults.dateFormat,
+                        selectedDate, instance.settings );
+                        dates.not( this ).datepicker( "option", option, date );
+                    }
+                });
+                $('#time').timepicker();
+                $('#etime').timepicker();
+                $("#reminder").dropdownchecklist({ width: '250px;', firstItemChecksAll: true, maxDropHeight: 200 });
+                //$dateFields.datepicker();
+                // apply separately the option 'altField' accordingly
+                /*$('#report2from1').datepicker('option', 'altField', '#sdate');
+                $('#report2from2').datepicker('option', 'altField', '#report2from1');
+                $('#report2to1').datepicker('option', 'altField', '#report2to2');
+                $('#report2to2').datepicker('option', 'altField', '#report2to1');*/
+                $( "#dialog-form" ).dialog({
+                    autoOpen: false,
+                    height: 600,
+                    width: 550,
+                    modal: true,
+                    open: function(){
+                        jQuery('.ui-widget-overlay').bind('click',function(){
+                            jQuery('#dialog-form').dialog('close');
+                        })
+                    },
+                    buttons: {
+                        
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                    close: function() {
+                        allFields.val( "" ).removeClass( "ui-state-error" );
+                    }
+                });
+
+                $( "#create-user" )
+                .button()
+                .click(function() {
+                    $( "#dialog-form" ).dialog( "open" );
+                });
+            });
+		
+        </script>
+    </head>
+    <body>
+    <center>
+        <textarea rows="5" cols="80" id="feed"></textarea>
+        <div id="ins"></div>
+        <button id="submit" onclick="check()">Feed</button>
+        <div id="dialog-overlay"></div>
+        <div id="dialog-box">
+            <div id="titlebar">Welcome</div>
+            <div class="dialog-content">
+                <div id="dialog-message"></div>
+                <button id="add">Add</button>
+                <button id="close">close</button> 
+            </div>
+        </div>
+        <div id="dialog-overlay2"></div>
+        <div id="dialog-box2" style="width:600px;">
+            <div id="titlebar2">Welcome</div>
+            <div class="dialog-content2">
+                <div id="dialog-message2"></div>
+                <center>
+                    Event Name:<input type="text"><br>
+                    Start Date:<input type="text" id="sdate">Time:<input type="text" id="time" style="width:50px">
+
+                    <label for="evttime">Hours:</label>
+                    <select name="evttime" id="evttime">
+                        <option value="1" selected="selected">1 Hour</option>
+                        <option value="2">2 Hour</option>
+                        <option value="3">3 Hour</option>
+                        <option value="4">4 Hour</option>
+                        <option value="5">5 Hour</option>
+                    </select>
+                    <input type="checkbox" id="allt" value="AllDay" />All Day<br>
+                    End Date:<input type="text" id="edate">Time:<input type="text" id="etime" style="width:50px">
+                    Time Zone:<select name="timezoneoffset" id="timezoneoffset" style="width:200px">
+                        <option value="+720" >(GMT -12:00 hours) Eniwetok, Kwajalein</option>
+                        <option value="+660" >(GMT -11:00 hours) Midway Island, Samoa</option>
+                        <option value="+600" >(GMT -10:00 hours) Hawaii</option>
+                        <option value="+560" >(GMT -9:00 hours) Alaska</option>
+                        <option value="+480" >(GMT -8:00 hours) Pacific Time (US & Canada)</option>
+                        <option value="+420" >(GMT -7:00 hours) Mountain Time (US & Canada)</option>
+                        <option value="+360" >(GMT -6:00 hours) Central Time (US & Canada), Mexico City</option>
+                        <option value="+300" selected>(GMT -5:00 hours) Eastern Time (US & Canada), Bogota, Lima, Quito</option>
+                        <option value="+240" >(GMT -4:00 hours) Atlantic Time (Canada), Caracas, La Paz</option>
+                        <option value="+210" >(GMT -3:30 hours) Newfoundland</option>
+                        <option value="+180" >(GMT -3:00 hours) Brazil, Buenos Aires, Georgetown</option>
+                        <option value="+120" >(GMT -2:00 hours) Mid-Atlantic</option>
+                        <option value="+60" >(GMT -1:00 hours) Azores, Cape Verde Islands</option>
+                        <option value="0" >(GMT) Western Europe Time, London, Lisbon, Casablanca, Monrovia</option>
+                        <option value="-60" >(GMT +1:00 hours) CET(Central Europe Time), Brussels, Copenhagen, Madrid, Paris</option>
+                        <option value="-120" >(GMT +2:00 hours) EET(Eastern Europe Time), Kaliningrad, South Africa</option>
+                        <option value="-180" >(GMT +3:00 hours) Baghdad, Kuwait, Riyadh, Moscow, St. Petersburg, Volgograd, Nairobi</option>
+                        <option value="-210" >(GMT +3:30 hours) Tehran</option>
+                        <option value="-240" >(GMT +4:00 hours) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                        <option value="-270" >(GMT +4:30 hours) Kabul</option>
+                        <option value="-300" >(GMT +5:00 hours) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                        <option value="-330" >(GMT +5:30 hours) Bombay, Calcutta, Madras, New Delhi</option>
+                        <option value="-360" >(GMT +6:00 hours) Almaty, Dhaka, Colombo</option>
+                        <option value="-420" >(GMT +7:00 hours) Bangkok, Hanoi, Jakarta</option>
+                        <option value="-480" >(GMT +8:00 hours) Beijing, Perth, Singapore, Hong Kong, Chongqing, Urumqi, Taipei</option>
+                        <option value="-540" >(GMT +9:00 hours) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                        <option value="-570" >(GMT +9:30 hours) Adelaide, Darwin</option>
+                        <option value="-600" >(GMT +10:00 hours) EAST(East Australian Standard), Guam, Papua New Guinea, Vladivostok</option>
+                        <option value="-660" >(GMT +11:00 hours) Magadan, Solomon Islands, New Caledonia</option>
+                        <option value="-720" >(GMT +12:00 hours) Auckland, Wellington, Fiji, Kamchatka, Marshall Island</option>
+                    </select><br>
+                    Location<input type="text" id="location"><br>
+                    Note:<textarea rows="5" cols="50" id="note"></textarea><br>
+                </center>
+
+
+                <center>
+                    <button id="add2">Add</button>
+                    <button id="addAnother">Add Another Event</button>
+                    <button id="close2">close</button>
+                </center>
+            </div>
+        </div> 
+    </center>
+    <select name="evttime1" id="evttime1">
+        <option value="1" selected="selected">1 Hour</option>
+        <option value="2">2 Hour</option>
+        <option value="3">3 Hour</option>
+        <option value="4">4 Hour</option>
+        <option value="5">5 Hour</option>
+    </select>
+    <button id="create-user">Reminder</button>
+    <div id="dialog-form" title="Create new user">
+        <p class="validateTips">All form fields are required.</p>
+
+        <form>
+            <fieldset>
+                <label for="reminder">Reminder:</label>
+                <select name="reminder" id="reminder" multiple="multiple" style="width:200px">
+                    <option value="1" >--All--</option>
+                    <option value="2" selected="selected">First Reminder</option>
+                    <option value="2">Second Reminder</option>
+                    <option value="2">Hourly</option>
+                    <option value="3">Daily</option>
+                    <option value="4">Weekly</option>
+                    <option value="5">Monthly</option>
+                    <option value="5">Yearly</option>
+                </select>
+                <div>
+                    <label for="reminder1">First:</label>
+                    <select name="reminder1" id="reminder1">
+                        <option value="1" selected="selected">1 Hour</option>
+                        <option value="2">2 Hour</option>
+                        <option value="3">1 Day</option>
+                        <option value="4">2 Days</option>
+                        <option value="5">4 Days</option>
+                    </select>
+                    <br>
+                    <label for="reminder2">Second:</label>
+                    <select name="reminder2" id="reminder2">
+                        <option value="1" selected="selected">1 Hour</option>
+                        <option value="2">2 Hour</option>
+                        <option value="3">1 Day</option>
+                        <option value="4">2 Days</option>
+                        <option value="5">4 Days</option>
+                    </select>
+                    <br>
+                    <label for="reminder3">Hourly From:</label>
+                    <select name="reminder3" id="reminder3">
+                        <option value="1" selected="selected">3 Hour Prior</option>
+                        <option value="2">4 Hours Prior</option>
+                        <option value="3">5 Hours Prior</option>
+                        <option value="4">6 Hours Prior</option>
+                        <option value="5">7 Hours Prior</option>
+                    </select>
+                    <br>
+                    <label for="reminder4">Daily From:</label>
+                    <select name="reminder4" id="reminder4">
+                        <option value="1" selected="selected">1 Day Prior</option>
+                        <option value="2">2 Days Prior</option>
+                        <option value="3">3 Days Prior</option>
+                        <option value="4">4 Days Prior</option>
+                        <option value="5">5 Days Prior</option>
+                    </select>
+                    <br>
+                    <label for="reminder5">Weekly From:</label>
+                    <select name="reminder5" id="reminder5">
+                        <option value="1" selected="selected">1 Week Prior</option>
+                        <option value="2">2 Weeks Prior</option>
+                        <option value="3">3 Weeks Prior</option>
+                        <option value="4">4 Weeks Prior</option>
+                        <option value="5">5 Weeks Prior</option>
+                    </select>
+                    <br>
+                    <label for="reminder6">Monthly From:</label>
+                    <select name="reminder6" id="reminder6">
+                        <option value="1" selected="selected">1 Month Prior</option>
+                        <option value="2">2 Months Prior</option>
+                        <option value="3">3 Months Prior</option>
+                        <option value="4">4 Months Prior</option>
+                        <option value="5">5 Months Prior</option>
+                    </select>
+                </div>
+                <br>
+
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
