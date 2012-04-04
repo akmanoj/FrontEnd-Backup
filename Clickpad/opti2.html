@@ -14,6 +14,7 @@
         <script src="cusjs/popup2.js"></script>
         <script src="cusjs/load2.js"></script>
         <script src="js/date.js"></script>
+        <script src="js/detect_timezone.js"></script>
         <link rel="stylesheet" type="text/css" href="cuscss/popup.css" />
         <link rel="stylesheet" type="text/css" href="css/jquery.ui.base.css" />
         <link rel="stylesheet" type="text/css" href="css/jquery.ui.theme.css" />
@@ -32,54 +33,24 @@
             /*select with custom icons*/
 
         </style>
+        <script type="application/javascript">
+            function getip(json){
+            g =json.ip; // alerts the ip address
+            }  
+        </script>
+
+        <script type="application/javascript" src="http://jsonip.appspot.com/?callback=getip"> </script>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript">
-            if (window.XMLHttpRequest){
-                xmlhttp=new XMLHttpRequest();
-            }
-            else{
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            xmlhttp.open("GET","note.xml",false);
-            xmlhttp.send();
-            xmlDoc=xmlhttp.responseXML;
             var messagea;
             var messageb;
             var myString;
             var timezone;
             $(function() {
-                
-                //var currentTime = new Date(),
-                // cache your selection already
-                //$dateFields = $('#sdate, #edate');
-                //$('#evttime').selectmenu();
-                /*$('#evttime1').selectmenu({style:'dropdown'});
-                $('#reminder1').selectmenu({style:'dropdown'});
-                $('#reminder2').selectmenu({style:'dropdown'});
-                $('#reminder3').selectmenu({style:'dropdown'});
-                $('#reminder4').selectmenu({style:'dropdown'});
-                $('#reminder5').selectmenu({style:'dropdown'});
-                $('#reminder6').selectmenu({style:'dropdown'});*/
-                
-                
-                // set all fields to readonly
-                //$dateFields.attr('readonly', 'readonly');
+                $.get("note.xml", function(data){
+                    xmlDoc = data;
+                });
 
-                // the options are the same for all instances
-                /*var options = {
-                    showButtonPanel: true,
-                    changeMonth: true,
-                    changeYear: true,
-                    numberOfMonths: 1,
-                    minDate: new Date(2010, 1 - 1, 1),
-                    maxDate: new Date(currentTime.getFullYear(), 11, 31),
-                    dateFormat: "mmm/dd/yyy",
-                    // set the date on open so the populated date is selected in the widget
-                    beforeShow: function(input, instance) {
-                        $(input).datepicker('setDate', $(input).val());
-                    }
-                };*/
-
-                // instanciate datepicker with the options for all the fields
                 var dates = $( "#sdate, #edate" ).datepicker({
                     changeMonth: true,
                     onSelect: function( selectedDate ) {
@@ -95,12 +66,7 @@
                 $('#time').timepicker();
                 $('#etime').timepicker();
                 $("#reminder").dropdownchecklist({ width: '250px;', firstItemChecksAll: true, maxDropHeight: 200 });
-                //$dateFields.datepicker();
-                // apply separately the option 'altField' accordingly
-                /*$('#report2from1').datepicker('option', 'altField', '#sdate');
-                $('#report2from2').datepicker('option', 'altField', '#report2from1');
-                $('#report2to1').datepicker('option', 'altField', '#report2to2');
-                $('#report2to2').datepicker('option', 'altField', '#report2to1');*/
+
                 $( "#dialog-form" ).dialog({
                     autoOpen: false,
                     height: 600,
@@ -127,15 +93,79 @@
                 .click(function() {
                     $( "#dialog-form" ).dialog( "open" );
                 });
+                
+                
+                txt = "<p>Browser CodeName: " + navigator.appCodeName + "</p>";
+                txt+= "<p>Browser Name: " + navigator.appName + "</p>";
+                txt+= "<p>Browser Version: " + navigator.appVersion + "</p>";
+                txt+= "<p>Cookies Enabled: " + navigator.cookieEnabled + "</p>";
+                txt+= "<p>Platform: " + navigator.platform + "</p>";
+                txt+= "<p>User-agent header: " + navigator.userAgent + "</p>";
+
+                document.getElementById("yourinfo").innerHTML=txt;
+                if(google.loader.ClientLocation)
+                {
+                    visitor_lat = google.loader.ClientLocation.latitude;
+                    visitor_lon = google.loader.ClientLocation.longitude;
+                    visitor_city = google.loader.ClientLocation.address.city;
+                    visitor_region = google.loader.ClientLocation.address.region;
+                    visitor_country = google.loader.ClientLocation.address.country;
+                    visitor_countrycode = google.loader.ClientLocation.address.country_code;
+                    aaa = google.loader.ClientLocation.address.ip;
+                    document.getElementById('yourinfo2').innerHTML = '<p>Lat/Lon: ' + visitor_lat + ' / ' + visitor_lon + '</p><p>Location: ' + visitor_city + ', ' + visitor_region + ', ' + visitor_country + ' (' + visitor_countrycode + ')</p>';
+                }
+                else
+                {
+                    document.getElementById('yourinfo2').innerHTML = '<p>Whoops!</p>';
+                }
+            
+                document.getElementById("yourinfo3").innerHTML=g;
+
+                $.get("http://api.hostip.info/get_html.php?ip="+g+"&position=true", function(data){
+                    document.getElementById('yourinfo4').innerHTML = data;
+                });
+                
+                $( "#opener" ).click(function() {
+                    $( "#dialog" ).dialog( "open" );
+                    return false;
+                });
+                $( "#dialog" ).dialog({
+                    open: function(){
+                        jQuery('.ui-widget-overlay').bind('click',function(){
+                            jQuery('#dialog').dialog('close');
+                        })
+                    },
+                autoOpen: false,
+                height: 600,
+                width: 550,
+                show: "blind",
+                hide: "explode"
             });
-		
+
+            $( "#opener" ).click(function() {
+                $( "#dialog" ).dialog( "open" );
+                return false;
+            });
+        });
+
+
         </script>
+
+
+
     </head>
     <body>
     <center>
         <textarea rows="5" cols="80" id="feed"></textarea>
         <div id="ins"></div>
         <button id="submit" onclick="check()">Feed</button>
+        <div id="dialog" title="User Info">
+            <div id="yourinfo"></div>
+            <div id="yourinfo2"></div>
+            <div id="yourinfo3"></div>
+            <div id="yourinfo4"></div>
+        </div>
+        <button id="opener">User Info</button>
         <div id="dialog-overlay"></div>
         <div id="dialog-box">
             <div id="titlebar">Welcome</div>
@@ -164,37 +194,59 @@
                     </select>
                     <input type="checkbox" id="allt" value="AllDay" />All Day<br>
                     End Date:<input type="text" id="edate">Time:<input type="text" id="etime" style="width:50px">
-                    Time Zone:<select name="timezoneoffset" id="timezoneoffset" style="width:200px">
-                        <option value="+720" >(GMT -12:00 hours) Eniwetok, Kwajalein</option>
-                        <option value="+660" >(GMT -11:00 hours) Midway Island, Samoa</option>
-                        <option value="+600" >(GMT -10:00 hours) Hawaii</option>
-                        <option value="+560" >(GMT -9:00 hours) Alaska</option>
-                        <option value="+480" >(GMT -8:00 hours) Pacific Time (US & Canada)</option>
-                        <option value="+420" >(GMT -7:00 hours) Mountain Time (US & Canada)</option>
-                        <option value="+360" >(GMT -6:00 hours) Central Time (US & Canada), Mexico City</option>
-                        <option value="+300" selected>(GMT -5:00 hours) Eastern Time (US & Canada), Bogota, Lima, Quito</option>
-                        <option value="+240" >(GMT -4:00 hours) Atlantic Time (Canada), Caracas, La Paz</option>
-                        <option value="+210" >(GMT -3:30 hours) Newfoundland</option>
-                        <option value="+180" >(GMT -3:00 hours) Brazil, Buenos Aires, Georgetown</option>
-                        <option value="+120" >(GMT -2:00 hours) Mid-Atlantic</option>
-                        <option value="+60" >(GMT -1:00 hours) Azores, Cape Verde Islands</option>
-                        <option value="0" >(GMT) Western Europe Time, London, Lisbon, Casablanca, Monrovia</option>
-                        <option value="-60" >(GMT +1:00 hours) CET(Central Europe Time), Brussels, Copenhagen, Madrid, Paris</option>
-                        <option value="-120" >(GMT +2:00 hours) EET(Eastern Europe Time), Kaliningrad, South Africa</option>
-                        <option value="-180" >(GMT +3:00 hours) Baghdad, Kuwait, Riyadh, Moscow, St. Petersburg, Volgograd, Nairobi</option>
-                        <option value="-210" >(GMT +3:30 hours) Tehran</option>
-                        <option value="-240" >(GMT +4:00 hours) Abu Dhabi, Muscat, Baku, Tbilisi</option>
-                        <option value="-270" >(GMT +4:30 hours) Kabul</option>
-                        <option value="-300" >(GMT +5:00 hours) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
-                        <option value="-330" >(GMT +5:30 hours) Bombay, Calcutta, Madras, New Delhi</option>
-                        <option value="-360" >(GMT +6:00 hours) Almaty, Dhaka, Colombo</option>
-                        <option value="-420" >(GMT +7:00 hours) Bangkok, Hanoi, Jakarta</option>
-                        <option value="-480" >(GMT +8:00 hours) Beijing, Perth, Singapore, Hong Kong, Chongqing, Urumqi, Taipei</option>
-                        <option value="-540" >(GMT +9:00 hours) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
-                        <option value="-570" >(GMT +9:30 hours) Adelaide, Darwin</option>
-                        <option value="-600" >(GMT +10:00 hours) EAST(East Australian Standard), Guam, Papua New Guinea, Vladivostok</option>
-                        <option value="-660" >(GMT +11:00 hours) Magadan, Solomon Islands, New Caledonia</option>
-                        <option value="-720" >(GMT +12:00 hours) Auckland, Wellington, Fiji, Kamchatka, Marshall Island</option>
+                    Time Zone:        <select name='timezone' id='timezone'>
+                        <option value='-12:00,0'>(-12:00) International Date Line West</option>
+                        <option value='-11:00,0'>(-11:00) Midway Island, Samoa</option>
+                        <option value='-10:00,0'>(-10:00) Hawaii</option>
+                        <option value='-09:00,1'>(-09:00) Alaska</option>
+                        <option value='-08:00,1'>(-08:00) Pacific Time (US & Canada)</option>
+                        <option value='-07:00,0'>(-07:00) Arizona</option>
+                        <option value='-07:00,1'>(-07:00) Mountain Time (US & Canada)</option>
+                        <option value='-06:00,0'>(-06:00) Central America, Saskatchewan</option>
+                        <option value='-06:00,1'>(-06:00) Central Time (US & Canada), Guadalajara, Mexico city</option>
+                        <option value='-05:00,0'>(-05:00) Indiana, Bogota, Lima, Quito, Rio Branco</option>
+                        <option value='-05:00,1'>(-05:00) Eastern time (US & Canada)</option>
+                        <option value='-04:00,1'>(-04:00) Atlantic time (Canada), Manaus, Santiago</option>
+                        <option value='-04:00,0'>(-04:00) Caracas, La Paz</option>
+                        <option value='-03:30,1'>(-03:30) Newfoundland</option>
+                        <option value='-03:00,1'>(-03:00) Greenland, Brasilia, Montevideo</option>
+                        <option value='-03:00,0'>(-03:00) Buenos Aires, Georgetown</option>
+                        <option value='-02:00,1'>(-02:00) Mid-Atlantic</option>
+                        <option value='-01:00,1'>(-01:00) Azores</option>
+                        <option value='-01:00,0'>(-01:00) Cape Verde Is.</option>
+                        <option value='00:00,0'>(00:00) Casablanca, Monrovia, Reykjavik</option>
+                        <option value='00:00,1'>(00:00) GMT: Dublin, Edinburgh, Lisbon, London</option>
+                        <option value='+01:00,1'>(+01:00) Amsterdam, Berlin, Rome, Vienna, Prague, Brussels</option>
+                        <option value='+01:00,0'>(+01:00) West Central Africa</option>
+                        <option value='+02:00,1'>(+02:00) Amman, Athens, Istanbul, Beirut, Cairo, Jerusalem</option>
+                        <option value='+02:00,0'>(+02:00) Harare, Pretoria</option>
+                        <option value='+03:00,1'>(+03:00) Baghdad, Moscow, St. Petersburg, Volgograd</option>
+                        <option value='+03:00,0'>(+03:00) Kuwait, Riyadh, Nairobi, Tbilisi</option>
+                        <option value='+03:30,0'>(+03:30) Tehran</option>
+                        <option value='+04:00,0'>(+04:00) Abu Dhadi, Muscat</option>
+                        <option value='+04:00,1'>(+04:00) Baku, Yerevan</option>
+                        <option value='+04:30,0'>(+04:30) Kabul</option>
+                        <option value='+05:00,1'>(+05:00) Ekaterinburg</option>
+                        <option value='+05:00,0'>(+05:00) Islamabad, Karachi, Tashkent</option>
+                        <option value='+05:30,0'>(+05:30) Chennai, Kolkata, Mumbai, New Delhi, Sri Jayawardenepura</option>
+                        <option value='+05:45,0'>(+05:45) Kathmandu</option>
+                        <option value='+06:00,0'>(+06:00) Astana, Dhaka</option>
+                        <option value='+06:00,1'>(+06:00) Almaty, Nonosibirsk</option>
+                        <option value='+06:30,0'>(+06:30) Yangon (Rangoon)</option>
+                        <option value='+07:00,1'>(+07:00) Krasnoyarsk</option>
+                        <option value='+07:00,0'>(+07:00) Bangkok, Hanoi, Jakarta</option>
+                        <option value='+08:00,0'>(+08:00) Beijing, Hong Kong, Singapore, Taipei</option>
+                        <option value='+08:00,1'>(+08:00) Irkutsk, Ulaan Bataar, Perth</option>
+                        <option value='+09:00,1'>(+09:00) Yakutsk</option>
+                        <option value='+09:00,0'>(+09:00) Seoul, Osaka, Sapporo, Tokyo</option>
+                        <option value='+09:30,0'>(+09:30) Darwin</option>
+                        <option value='+09:30,1'>(+09:30) Adelaide</option>
+                        <option value='+10:00,0'>(+10:00) Brisbane, Guam, Port Moresby</option>
+                        <option value='+10:00,1'>(+10:00) Canberra, Melbourne, Sydney, Hobart, Vladivostok</option>
+                        <option value='+11:00,0'>(+11:00) Magadan, Solomon Is., New Caledonia</option>
+                        <option value='+12:00,1'>(+12:00) Auckland, Wellington</option>
+                        <option value='+12:00,0'>(+12:00) Fiji, Kamchatka, Marshall Is.</option>
+                        <option value='+13:00,0'>(+13:00) Nuku'alofa</option>
                     </select><br>
                     Location<input type="text" id="location"><br>
                     Note:<textarea rows="5" cols="50" id="note"></textarea><br>
